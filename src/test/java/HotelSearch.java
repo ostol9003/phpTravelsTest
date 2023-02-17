@@ -47,6 +47,13 @@ public class HotelSearch {
                 .ifPresent(el -> el.click());
 
 
+
+        driver.findElement(By.id("travellersInput")).click();
+        driver.findElement(By.id("adultPlusBtn")).click();
+        driver.findElement(By.id("childPlusBtn")).click();
+        driver.findElement(By.id("adultMinusBtn")).click();
+        driver.findElement(By.id("travellersInput")).click();
+
         driver.quit();
     }
 }
