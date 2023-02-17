@@ -1,10 +1,12 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 public class HotelSearch {
     @Test
@@ -22,10 +24,29 @@ public class HotelSearch {
 
         driver.findElement(By.name("checkin")).sendKeys("17/03/2023");
         driver.findElement(By.name("checkin")).click();
-        driver.findElement(By.name("checkout")).sendKeys("17/05/2023");
+
+        driver.findElement(By.name("checkout")).click();
+        driver.findElements(By.xpath("//th[@class='switch' and text()='February 2023']"))
+                .stream()
+                .filter(element -> element.isDisplayed())
+                .findFirst()
+                .ifPresent(element -> element.click());
+
+        driver.findElements(By.xpath("//span[@class='month' and text()='Mar']"))
+                .stream()
+                .filter(el -> el.isDisplayed())
+                .findFirst()
+                .ifPresent(el -> el.click());
+
         driver.findElement(By.name("checkout")).click();
 
+        driver.findElements(By.xpath("//td[@class='day ' and text()='30']"))
+                .stream()
+                .filter(el -> el.isDisplayed())
+                .findFirst()
+                .ifPresent(el -> el.click());
 
-//        driver.quit();
+
+        driver.quit();
     }
 }
