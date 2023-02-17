@@ -1,10 +1,19 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.openqa.selenium.support.How.*;
 
 public class HotelSearch {
     @Test
@@ -26,24 +35,23 @@ public class HotelSearch {
         driver.findElement(By.name("checkout")).click();
         driver.findElements(By.xpath("//th[@class='switch' and text()='February 2023']"))
                 .stream()
-                .filter(element -> element.isDisplayed())
+                .filter(WebElement::isDisplayed)
                 .findFirst()
-                .ifPresent(element -> element.click());
+                .ifPresent(WebElement::click);
 
         driver.findElements(By.xpath("//span[@class='month' and text()='Mar']"))
                 .stream()
-                .filter(el -> el.isDisplayed())
+                .filter(WebElement::isDisplayed) //el -> el.isDisplayed()
                 .findFirst()
-                .ifPresent(el -> el.click());
+                .ifPresent(WebElement::click); // el -> el.click()
 
         driver.findElement(By.name("checkout")).click();
 
         driver.findElements(By.xpath("//td[@class='day ' and text()='30']"))
                 .stream()
-                .filter(el -> el.isDisplayed())
+                .filter(WebElement::isDisplayed)
                 .findFirst()
-                .ifPresent(el -> el.click());
-
+                .ifPresent(WebElement::click);
 
 
         driver.findElement(By.id("travellersInput")).click();
@@ -52,6 +60,27 @@ public class HotelSearch {
         driver.findElement(By.id("adultMinusBtn")).click();
         driver.findElement(By.id("travellersInput")).click();
 
+
+        driver.findElement(By.xpath("//button[@type='submit' and text()=' Search']")).click();
+
+        List<String> hotelsList = driver.findElements(By.xpath("//h4[contains(@class,'list_title')]//b"))
+                .stream()
+                .map(el -> el.getAttribute("innerHTML"))
+                .collect(Collectors.toList());
+
+
+
+        System.out.println(hotelsList.size());
+        hotelsList.forEach(System.out::println);
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals("Jumeirah Beach Hotel",hotelsList.get(0),"Failed to find");
+        softAssert.assertEquals("Oasis Beach Tower",hotelsList.get(1),"Failed to find");
+        softAssert.assertEquals("Rose Rayhaan Rotana",hotelsList.get(2),"Failed to find");
+        softAssert.assertEquals("Hyatt Regency Perth",hotelsList.get(3),"Failed to find");
+
+
         driver.quit();
+        softAssert.assertAll();
     }
 }
