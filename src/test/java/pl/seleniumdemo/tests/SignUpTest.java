@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pl.seleniumdemo.pages.HotelSearchPage;
+import pl.seleniumdemo.pages.SignUpPage;
 import pl.seleniumdemo.tests.BaseTest;
 
 import java.util.ArrayList;
@@ -14,59 +16,37 @@ public class SignUpTest extends BaseTest {
 
     @Test
     public void signUpTest() {
-        driver.findElements(By.xpath("//a[text()=' My Account ']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
-
-        // worse way
-        // driver.findElements(By.xpath("//a[text()='  Sign Up']").get(1).click());
-
-        driver.findElements(By.xpath("//a[text()='  Sign Up']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
-
         // random email
         int randomNumber = (int) (Math.random() * 1000);
         String email = "marcin" + randomNumber;
+      String lastName = "Ostolski";
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+        hotelSearchPage.openSignUpForm();
 
-        String lastname = "Ostolski";
-        driver.findElement(By.name("firstname")).sendKeys("Marcin");
-        driver.findElement(By.name("lastname")).sendKeys(lastname);
-        driver.findElement(By.name("phone")).sendKeys("700800900");
-        driver.findElement(By.name("email")).sendKeys(email + "@gmail.com");
-        driver.findElement(By.name("password")).sendKeys("123test");
-        driver.findElement(By.name("confirmpassword")).sendKeys("123test");
+        SignUpPage signUpPage = new SignUpPage(driver);
+        signUpPage.settAtribute(signUpPage.getFirstNameInput(), "Marcin");
+        signUpPage.settAtribute(signUpPage.getLastNameInput(), lastName);
+        signUpPage.settAtribute(signUpPage.getPhoneInput(),"700800900");
+        signUpPage.settAtribute(signUpPage.getEmailInput(),email+"@gmail.com");
+        signUpPage.settAtribute(signUpPage.getPasswordInput(),"123test");
+        signUpPage.settAtribute(signUpPage.getConfirmPasswordInput(),"123test");
 
-        driver.findElement(By.xpath("//button[text()=' Sign Up']")).click();
+        signUpPage.performSignUP();
 
         WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
 
-        Assert.assertTrue(heading.getAttribute("textContent").contains(lastname));
+        Assert.assertTrue(heading.getAttribute("textContent").contains(lastName));
         Assert.assertEquals(heading.getAttribute("textContent"), "Hi, Marcin Ostolski");
 
     }
 
     @Test
     public void signUpEmptySheetTest() {
-        driver.findElements(By.xpath("//a[text()=' My Account ']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+        hotelSearchPage.openSignUpForm();
 
-
-        driver.findElements(By.xpath("//a[text()='  Sign Up']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
-
-
-        driver.findElement(By.xpath("//button[text()=' Sign Up']")).click();
+        SignUpPage signUpPage = new SignUpPage(driver);
+        signUpPage.performSignUP();
 
         List<String> failsList = driver.findElements(By.xpath("//p[contains(text(),'required')]"))
                 .stream()
@@ -89,28 +69,21 @@ public class SignUpTest extends BaseTest {
 
     @Test
     public void signUpEmailFailTest() {
-        driver.findElements(By.xpath("//a[text()=' My Account ']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
+        int randomNumber = (int) (Math.random() * 1000);
+        String email = "marcin" + randomNumber;
+        String lastName = "Ostolski";
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+        hotelSearchPage.openSignUpForm();
 
+        SignUpPage signUpPage = new SignUpPage(driver);
+        signUpPage.settAtribute(signUpPage.getFirstNameInput(), "Marcin");
+        signUpPage.settAtribute(signUpPage.getLastNameInput(), lastName);
+        signUpPage.settAtribute(signUpPage.getPhoneInput(),"700800900");
+        signUpPage.settAtribute(signUpPage.getEmailInput(),email);
+        signUpPage.settAtribute(signUpPage.getPasswordInput(),"123test");
+        signUpPage.settAtribute(signUpPage.getConfirmPasswordInput(),"123test");
 
-        driver.findElements(By.xpath("//a[text()='  Sign Up']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
-
-
-        driver.findElement(By.name("firstname")).sendKeys("Marcin");
-        driver.findElement(By.name("lastname")).sendKeys("Ostolski");
-        driver.findElement(By.name("phone")).sendKeys("700800900");
-        driver.findElement(By.name("email")).sendKeys("email");
-        driver.findElement(By.name("password")).sendKeys("123test");
-        driver.findElement(By.name("confirmpassword")).sendKeys("123test");
-
-        driver.findElement(By.xpath("//button[text()=' Sign Up']")).click();
+        signUpPage.performSignUP();
 
         List<String> failsList = driver.findElements(By.xpath("//div[@class='alert alert-danger']//p"))
                 .stream()
