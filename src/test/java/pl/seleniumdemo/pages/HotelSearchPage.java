@@ -5,9 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.asserts.SoftAssert;
-
-import java.util.List;
+import pl.seleniumdemo.tests.DriverFactory;
 
 
 public class HotelSearchPage {
@@ -17,9 +15,6 @@ public class HotelSearchPage {
 
     @FindBy(xpath = "//div[@id='select2-drop']//input")
     private WebElement searchCityInput;
-
-    @FindBy(xpath = "//span[@class='select2-match' and text()='Dubai']")
-    private WebElement hotelMatch;
 
     @FindBy(name = "checkin")
     private WebElement checkinInput;
@@ -39,32 +34,41 @@ public class HotelSearchPage {
     @FindBy(xpath = "//button[@type='submit' and text()=' Search']")
     private WebElement searchButton;
 
-public HotelSearchPage(WebDriver driver){
-    PageFactory.initElements(driver,this);
-}
+    private WebDriver driver;
+    public HotelSearchPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+        this.driver= DriverFactory.getDriver();
+    }
 
-public void setCity(String cityName){
-    searchCitySpan.click();
-    searchCityInput.sendKeys(cityName);
-    hotelMatch.click();
-}
+    public void setCity(String cityName) {
+        searchCitySpan.click();
+        searchCityInput.sendKeys(cityName);
+        String xpath = String.format("//span[@class='select2-match' and text()='%s']",cityName);
+        driver.findElement(By.xpath(xpath)).click();
+    }
 
-public void setDates (String checkIn, String checkOut){
-    checkinInput.sendKeys(checkIn);
-    checkinInput.click();
-    checkoutInput.sendKeys(checkOut);
-    checkoutInput.click();
-}
+    public void setDates(String checkIn, String checkOut) {
+        checkinInput.sendKeys(checkIn);
+        checkinInput.click();
+        checkoutInput.sendKeys(checkOut);
+        checkoutInput.click();
+    }
 
-public void setTravellers (){
-    travellersInput.click();
-    adultPlusBtn.click();
-    childPlusBtn.click();
-}
+    public void setTravellers(int adultsToAdd, int childToAdd) {
+        travellersInput.click();
+        addTraveler(adultPlusBtn, adultsToAdd);
+        addTraveler(childPlusBtn, childToAdd);
+    }
 
-public void performSearch(){
-    searchButton.click();
-}
+    private void addTraveler(WebElement travelerBtn, int travelersToAdd) {
+        for (int i = 0; i < travelersToAdd; i++) {
+            travelerBtn.click();
+        }
+    }
+
+    public void performSearch() {
+        searchButton.click();
+    }
 
 
 }
