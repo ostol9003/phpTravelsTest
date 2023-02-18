@@ -5,9 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
-
+import java.util.ArrayList;
+import java.util.List;
 public class SignUpTest {
     @Test
     public void signUp() {
@@ -52,6 +54,91 @@ public class SignUpTest {
         Assert.assertTrue(heading.getAttribute("textContent").contains(lastname));
         Assert.assertEquals(heading.getAttribute("textContent"), "Hi, Marcin Ostolski");
 
+        driver.quit();
+
+    }
+
+    @Test
+    public void signUpEmptySheet() {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get("http://www.kurs-selenium.pl/demo/");
+
+        driver.findElements(By.xpath("//a[text()=' My Account ']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+
+
+        driver.findElements(By.xpath("//a[text()='  Sign Up']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+
+
+        driver.findElement(By.xpath("//button[text()=' Sign Up']")).click();
+
+        List<String> failsList = driver.findElements(By.xpath("//p[contains(text(),'required')]"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+
+        SoftAssert softAsert = new SoftAssert();
+
+        List<String> fails = new ArrayList<>();
+        fails.add("The Email field is required.");
+        fails.add("The Password field is required.");
+        fails.add("The Password field is required.");
+        fails.add("The First name field is required.");
+        fails.add("The Last Name field is required.");
+
+        failsList.forEach(e -> softAsert.assertTrue(fails.contains(e)));
+
+        softAsert.assertAll();
+        driver.quit();
+
+    }
+
+    @Test
+    public void signUpEmailFail() {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get("http://www.kurs-selenium.pl/demo/");
+
+        driver.findElements(By.xpath("//a[text()=' My Account ']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+
+
+        driver.findElements(By.xpath("//a[text()='  Sign Up']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+
+
+        driver.findElement(By.name("firstname")).sendKeys("Marcin");
+        driver.findElement(By.name("lastname")).sendKeys("Ostolski");
+        driver.findElement(By.name("phone")).sendKeys("700800900");
+        driver.findElement(By.name("email")).sendKeys("email");
+        driver.findElement(By.name("password")).sendKeys("123test");
+        driver.findElement(By.name("confirmpassword")).sendKeys("123test");
+
+        driver.findElement(By.xpath("//button[text()=' Sign Up']")).click();
+
+        WebElement emailFail = driver.findElement(By.xpath("//div[@class='alert alert-danger']"));
+
+        Assert.assertTrue(emailFail.isDisplayed(), "Email format fail.");
         driver.quit();
 
     }
