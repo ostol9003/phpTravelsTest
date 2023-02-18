@@ -1,8 +1,11 @@
+package pl.seleniumdemo.tests;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pl.seleniumdemo.pages.HotelSearchPage;
 
 import java.util.List;
 
@@ -10,43 +13,11 @@ public class HotelSearchTest extends BaseTest {
     @Test
     /* Searching for hotel*/
     public void searchHotelTest() {
-        driver.findElement(By.xpath("//span[text()='Search by Hotel or City Name']")).click();
-        driver.findElement(By.xpath("//div[@id='select2-drop']//input")).sendKeys("Dubai");
-        driver.findElement(By.xpath("//span[@class='select2-match' and text()='Dubai']")).click();
-
-        driver.findElement(By.name("checkin")).sendKeys("17/03/2023");
-        driver.findElement(By.name("checkin")).click();
-
-        driver.findElement(By.name("checkout")).click();
-        driver.findElements(By.xpath("//th[@class='switch' and text()='February 2023']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
-
-        driver.findElements(By.xpath("//span[@class='month' and text()='Mar']"))
-                .stream()
-                .filter(WebElement::isDisplayed) //el -> el.isDisplayed()
-                .findFirst()
-                .ifPresent(WebElement::click); // el -> el.click()
-
-        driver.findElement(By.name("checkout")).click();
-
-        driver.findElements(By.xpath("//td[@class='day ' and text()='30']"))
-                .stream()
-                .filter(WebElement::isDisplayed)
-                .findFirst()
-                .ifPresent(WebElement::click);
-
-
-        driver.findElement(By.id("travellersInput")).click();
-        driver.findElement(By.id("adultPlusBtn")).click();
-        driver.findElement(By.id("childPlusBtn")).click();
-        driver.findElement(By.id("adultMinusBtn")).click();
-        driver.findElement(By.id("travellersInput")).click();
-
-
-        driver.findElement(By.xpath("//button[@type='submit' and text()=' Search']")).click();
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+        hotelSearchPage.setCity("Dubai");
+        hotelSearchPage.setDates("20/04/2023","29/04/2023");
+        hotelSearchPage.setTravellers();
+        hotelSearchPage.performSearch();
 
         List<String> hotelsList = driver.findElements(By.xpath("//h4[contains(@class,'list_title')]//b"))
                 .stream()
