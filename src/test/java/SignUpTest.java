@@ -5,11 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class SignUpTest {
     @Test
@@ -37,7 +34,7 @@ public class SignUpTest {
                 .ifPresent(WebElement::click);
 
         // random email
-        int randomNumber = (int) (Math.random() *1000);
+        int randomNumber = (int) (Math.random() * 1000);
         String email = "marcin" + randomNumber;
 
         String lastname = "Ostolski";
@@ -53,9 +50,9 @@ public class SignUpTest {
         WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
 
         Assert.assertTrue(heading.getAttribute("textContent").contains(lastname));
-        Assert.assertEquals( heading.getAttribute("textContent"),"Hi, Marcin Ostolski");
+        Assert.assertEquals(heading.getAttribute("textContent"), "Hi, Marcin Ostolski");
 
-//        driver.quit();
+        driver.quit();
 
     }
 }
