@@ -10,6 +10,7 @@ import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
 public class SignUpTest {
     @Test
     public void signUp() {
@@ -136,9 +137,11 @@ public class SignUpTest {
 
         driver.findElement(By.xpath("//button[text()=' Sign Up']")).click();
 
-        WebElement emailFail = driver.findElement(By.xpath("//div[@class='alert alert-danger']"));
-
-        Assert.assertTrue(emailFail.isDisplayed(), "Email format fail.");
+        List<String> failsList = driver.findElements(By.xpath("//div[@class='alert alert-danger']//p"))
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+        Assert.assertTrue(failsList.contains("The Email field must contain a valid email address."));
         driver.quit();
 
     }
