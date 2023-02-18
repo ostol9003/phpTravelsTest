@@ -1,27 +1,15 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class HotelSearch {
+public class HotelSearchTest extends BaseTest {
     @Test
     /* Searching for hotel*/
-    public void searchHotel() {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
+    public void searchHotelTest() {
         driver.findElement(By.xpath("//span[text()='Search by Hotel or City Name']")).click();
         driver.findElement(By.xpath("//div[@id='select2-drop']//input")).sendKeys("Dubai");
         driver.findElement(By.xpath("//span[@class='select2-match' and text()='Dubai']")).click();
@@ -63,7 +51,7 @@ public class HotelSearch {
         List<String> hotelsList = driver.findElements(By.xpath("//h4[contains(@class,'list_title')]//b"))
                 .stream()
                 .map(el -> el.getAttribute("innerHTML"))
-                .collect(Collectors.toList());
+                .toList();
 
 
         System.out.println(hotelsList.size());
@@ -75,21 +63,12 @@ public class HotelSearch {
         softAssert.assertEquals(hotelsList.get(2), "Rose Rayhaan Rotana", "Failed to find");
         softAssert.assertEquals(hotelsList.get(3), "Hyatt Regency Perth", "Failed to find");
 
-
-        driver.quit();
         softAssert.assertAll();
     }
 
     @Test
     /* Searching for hotel without city name + assertion */
-    public void searchHotel_v1() {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
+    public void searchHotel_v1Test() {
 
         driver.findElement(By.name("checkin")).sendKeys("17/05/2023");
         driver.findElement(By.name("checkin")).click();
@@ -137,7 +116,6 @@ public class HotelSearch {
         WebElement noResultHeading = driver.findElement(By.xpath("//div[@class='itemscontainer']//h2"));
         Assert.assertTrue(noResultHeading.isDisplayed());
         Assert.assertEquals(noResultHeading.getText(), "No Results Found");
-        driver.quit();
 
     }
 }
