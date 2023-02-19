@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import pl.seleniumdemo.utils.DriverFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        WebDriver driver = DriverFactory.getDriver();
+        WebDriver driver = DriverFactory.getDriver1();
         int randomNumber = (int) (Math.random() * 1000);
         String failImg = "TestFail" + randomNumber + ".png";
 

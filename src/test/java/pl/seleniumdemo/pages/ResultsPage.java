@@ -10,7 +10,7 @@ import java.util.List;
 public class ResultsPage {
 
     @FindBy(xpath = "//h4[contains(@class,'list_title')]//b")
-    private List<WebElement> hotelList;
+    private List<WebElement> hotelsList;
 
     @FindBy(xpath = "//div[@class='itemscontainer']//h2")
     private WebElement resultHeading;
@@ -19,9 +19,11 @@ public class ResultsPage {
         PageFactory.initElements(driver, this);
     }
 
+
+
     public List<String> getHotelNames() {
-        return hotelList.stream()
-                .map(el -> el.getAttribute("innerHTML"))
+        return hotelsList.stream()
+                .map(el -> el.getAttribute("textContent"))
                 .toList();
     }
 

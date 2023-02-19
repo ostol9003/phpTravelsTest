@@ -1,11 +1,14 @@
 package pl.seleniumdemo.tests;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pl.seleniumdemo.pages.HotelSearchPage;
 import pl.seleniumdemo.pages.ResultsPage;
 
+import java.time.Duration;
 import java.util.List;
 
 public class HotelSearchTest extends BaseTest {
@@ -20,7 +23,6 @@ public class HotelSearchTest extends BaseTest {
 
         ResultsPage resultsPage = new ResultsPage(driver);
         List<String> hotelsList = resultsPage.getHotelNames();
-
 
         System.out.println(hotelsList.size());
         hotelsList.forEach(System.out::println);
@@ -46,7 +48,9 @@ public class HotelSearchTest extends BaseTest {
 
         ResultsPage resultPage = new ResultsPage(driver);
 
-        Assert.assertTrue(resultPage.getResultHeading().isDisplayed());
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfAllElements(resultPage.getResultHeading()));
+
         Assert.assertEquals(resultPage.getHeadingText(), "No Results Found");
 
     }

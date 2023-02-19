@@ -44,7 +44,7 @@ public class SignUpPage {
                 .toList();
     }
 
-  
+
     public void setFirstName(String firstName) {
         firstNameInput.sendKeys(firstName);
     }
