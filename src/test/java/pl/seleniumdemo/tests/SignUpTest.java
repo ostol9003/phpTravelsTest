@@ -22,12 +22,12 @@ public class SignUpTest extends BaseTest {
         hotelSearchPage.openSignUpForm();
 
         SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.settAtribute(signUpPage.getFirstNameInput(), "Marcin");
-        signUpPage.settAtribute(signUpPage.getLastNameInput(), lastName);
-        signUpPage.settAtribute(signUpPage.getPhoneInput(), "700800900");
-        signUpPage.settAtribute(signUpPage.getEmailInput(), email + "@gmail.com");
-        signUpPage.settAtribute(signUpPage.getPasswordInput(), "123test");
-        signUpPage.settAtribute(signUpPage.getConfirmPasswordInput(), "123test");
+        signUpPage.setFirstName("Marcin");
+        signUpPage.setLastName(lastName);
+        signUpPage.setPhone("700800900");
+        signUpPage.setEmail(email + "@gmail.com");
+        signUpPage.setPassword("123test");
+        signUpPage.setConfirmPassword("123test");
 
         signUpPage.performSignUP();
 
@@ -36,22 +36,7 @@ public class SignUpTest extends BaseTest {
         Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Marcin Ostolski");
 
     }
-    @Test
-    public void signUpTest2() {
-        int randomNumber = (int) (Math.random() * 1000);
-        String email = "marcin" + randomNumber;
-        String lastName = "Ostolski";
-        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
-        hotelSearchPage.openSignUpForm();
 
-        SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.fillSignUpForm("Marcin",lastName,"700800900",email+"@gmail.com","123test");
-
-        LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
-        Assert.assertTrue(loggedUserPage.getHeadingText().contains(lastName));
-        Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Marcin Ostolski");
-
-    }
     @Test
     public void signUpEmptySheetTest() {
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
@@ -79,19 +64,18 @@ public class SignUpTest extends BaseTest {
 
     @Test
     public void signUpEmailFailTest() {
-        int randomNumber = (int) (Math.random() * 1000);
-        String email = "marcin" + randomNumber;
         String lastName = "Ostolski";
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.openSignUpForm();
 
+
         SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.settAtribute(signUpPage.getFirstNameInput(), "Marcin");
-        signUpPage.settAtribute(signUpPage.getLastNameInput(), lastName);
-        signUpPage.settAtribute(signUpPage.getPhoneInput(), "700800900");
-        signUpPage.settAtribute(signUpPage.getEmailInput(), email);
-        signUpPage.settAtribute(signUpPage.getPasswordInput(), "123test");
-        signUpPage.settAtribute(signUpPage.getConfirmPasswordInput(), "123test");
+        signUpPage.setFirstName("Marcin");
+        signUpPage.setLastName(lastName);
+        signUpPage.setPhone("700800900");
+        signUpPage.setEmail("marcin");
+        signUpPage.setPassword("123test");
+        signUpPage.setConfirmPassword("123test");
 
         signUpPage.performSignUP();
 

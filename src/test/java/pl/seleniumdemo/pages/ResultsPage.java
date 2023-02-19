@@ -14,15 +14,18 @@ public class ResultsPage {
 
     @FindBy(xpath = "//div[@class='itemscontainer']//h2")
     private WebElement resultHeading;
-    public ResultsPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
+
+    public ResultsPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
     }
+
     public List<String> getHotelNames() {
         return hotelList.stream()
                 .map(el -> el.getAttribute("innerHTML"))
                 .toList();
     }
-    public String getHeadingText(){
+
+    public String getHeadingText() {
         return resultHeading.getText();
     }
 

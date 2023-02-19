@@ -34,52 +34,43 @@ public class SignUpPage {
     private List<WebElement> failsList;
 
 
-    public SignUpPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
+    public SignUpPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
     }
 
-    public List<String> getFailsList(){
+    public List<String> getFailsList() {
         return failsList.stream()
                 .map(WebElement::getText)
                 .toList();
     }
-    public void settAtribute(WebElement element,String attribute){
-        element.sendKeys(attribute);
+
+  
+    public void setFirstName(String firstName) {
+        firstNameInput.sendKeys(firstName);
     }
 
-    public WebElement getFirstNameInput() {
-        return firstNameInput;
+    public void setLastName(String lastName) {
+        lastNameInput.sendKeys(lastName);
     }
 
-    public WebElement getLastNameInput() {
-        return lastNameInput;
+    public void setPhone(String phone) {
+        phoneInput.sendKeys(phone);
     }
 
-    public WebElement getPhoneInput() {
-        return phoneInput;
+    public void setEmail(String email) {
+        emailInput.sendKeys(email);
     }
 
-    public WebElement getEmailInput() {
-        return emailInput;
+    public void setPassword(String password) {
+        passwordInput.sendKeys(password);
     }
 
-    public WebElement getPasswordInput() {
-        return passwordInput;
+    public void setConfirmPassword(String password) {
+        confirmPasswordInput.sendKeys(password);
     }
 
-    public WebElement getConfirmPasswordInput() {
-        return confirmPasswordInput;
-    }
-    public void performSignUP (){
+    public void performSignUP() {
         signUpButton.click();
     }
-    public void fillSignUpForm(String firstname, String lastname,String phone, String email,String password){
-        firstNameInput.sendKeys(firstname);
-        lastNameInput.sendKeys(lastname);
-        phoneInput.sendKeys(phone);
-        emailInput.sendKeys(email);
-        passwordInput.sendKeys(password);
-        confirmPasswordInput.sendKeys(password);
-        performSignUP();
-    }
+
 }
