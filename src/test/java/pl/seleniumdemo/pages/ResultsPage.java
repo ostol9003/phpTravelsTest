@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class ResultsPage {
+
     @FindBy(xpath = "//h4[contains(@class,'list_title')]//b")
     private List<WebElement> hotelList;
 

@@ -5,9 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pl.seleniumdemo.tests.DriverFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,11 +40,12 @@ public class HotelSearchPage {
 
     @FindBy(xpath = "//a[text()='  Sign Up']")
     private List<WebElement> signUpLink;
-    private WebDriver driver;
 
+    private final WebDriver driver;
 
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
     public void openSignUpForm() {

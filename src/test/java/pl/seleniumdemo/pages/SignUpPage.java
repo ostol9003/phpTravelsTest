@@ -4,11 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pl.seleniumdemo.tests.DriverFactory;
+
+import java.util.List;
 
 public class SignUpPage {
-    private WebDriver driver;
-
 
     @FindBy(name = "firstname")
     private WebElement firstNameInput;
@@ -31,11 +30,19 @@ public class SignUpPage {
     @FindBy(xpath = "//button[text()=' Sign Up']")
     private WebElement signUpButton;
 
+    @FindBy(xpath = "//div[@class='alert alert-danger']//p")
+    private List<WebElement> failsList;
+
 
     public SignUpPage(WebDriver driver){
         PageFactory.initElements(driver,this);
     }
 
+    public List<String> getFailsList(){
+        return failsList.stream()
+                .map(WebElement::getText)
+                .toList();
+    }
     public void settAtribute(WebElement element,String attribute){
         element.sendKeys(attribute);
     }

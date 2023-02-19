@@ -9,8 +9,8 @@ import pl.seleniumdemo.pages.ResultsPage;
 import java.util.List;
 
 public class HotelSearchTest extends BaseTest {
-    @Test
     /* Searching for hotel*/
+    @Test
     public void searchHotelTest() {
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.setCity("Dubai");
@@ -32,10 +32,11 @@ public class HotelSearchTest extends BaseTest {
         softAssert.assertEquals(hotelsList.get(3), "Hyatt Regency Perth", "Failed to find");
 
         softAssert.assertAll();
+        driver.quit();
     }
 
-    @Test
     /* Searching for hotel without city name + assertion */
+    @Test
     public void searchHotel_v1Test() {
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
 
