@@ -33,53 +33,53 @@ public class SignUpPage {
     @FindBy(xpath = "//div[@class='alert alert-danger']//p")
     private List<WebElement> failsList;
 
+    private final WebDriver driver;
 
-    public SignUpPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
+    public SignUpPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
-    public List<String> getFailsList(){
+    public List<String> getFailsList() {
         return failsList.stream()
                 .map(WebElement::getText)
                 .toList();
     }
-    public void settAtribute(WebElement element,String attribute){
-        element.sendKeys(attribute);
+
+
+    public SignUpPage setFirstName(String firstName) {
+        firstNameInput.sendKeys(firstName);
+        return this;
     }
 
-    public WebElement getFirstNameInput() {
-        return firstNameInput;
+    public SignUpPage setLastName(String lastName) {
+        lastNameInput.sendKeys(lastName);
+        return this;
     }
 
-    public WebElement getLastNameInput() {
-        return lastNameInput;
-    }
-
-    public WebElement getPhoneInput() {
-        return phoneInput;
-    }
-
-    public WebElement getEmailInput() {
-        return emailInput;
-    }
-
-    public WebElement getPasswordInput() {
-        return passwordInput;
-    }
-
-    public WebElement getConfirmPasswordInput() {
-        return confirmPasswordInput;
-    }
-    public void performSignUP (){
-        signUpButton.click();
-    }
-    public void fillSignUpForm(String firstname, String lastname,String phone, String email,String password){
-        firstNameInput.sendKeys(firstname);
-        lastNameInput.sendKeys(lastname);
+    public SignUpPage setPhone(String phone) {
         phoneInput.sendKeys(phone);
+        return this;
+    }
+
+    public SignUpPage setEmail(String email) {
         emailInput.sendKeys(email);
+        return this;
+    }
+
+    public SignUpPage setPassword(String password) {
         passwordInput.sendKeys(password);
-        confirmPasswordInput.sendKeys(password);
-        performSignUP();
+        return this;
+    }
+
+    public SignUpPage setConfirmPassword(String confirmPassword) {
+        confirmPasswordInput.sendKeys(confirmPassword);
+        return this;
+    }
+
+    
+    public LoggedUserPage performSignUP() {
+        signUpButton.click();
+        return new LoggedUserPage(driver);
     }
 }

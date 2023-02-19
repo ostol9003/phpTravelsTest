@@ -16,48 +16,29 @@ public class SignUpTest extends BaseTest {
     public void signUpTest() {
         // random email
         int randomNumber = (int) (Math.random() * 1000);
-        String email = "marcin" + randomNumber;
         String lastName = "Ostolski";
-        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
-        hotelSearchPage.openSignUpForm();
 
-        SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.settAtribute(signUpPage.getFirstNameInput(), "Marcin");
-        signUpPage.settAtribute(signUpPage.getLastNameInput(), lastName);
-        signUpPage.settAtribute(signUpPage.getPhoneInput(), "700800900");
-        signUpPage.settAtribute(signUpPage.getEmailInput(), email + "@gmail.com");
-        signUpPage.settAtribute(signUpPage.getPasswordInput(), "123test");
-        signUpPage.settAtribute(signUpPage.getConfirmPasswordInput(), "123test");
+        LoggedUserPage loggedUserPage = new HotelSearchPage(driver)
+                .openSignUpForm()
+                .setFirstName("Marcin")
+                .setLastName(lastName)
+                .setPhone("700800900")
+                .setEmail("marcin" + randomNumber + "@gmail.com")
+                .setPassword("123test")
+                .setConfirmPassword("123test")
+                .performSignUP();
 
-        signUpPage.performSignUP();
 
-        LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
         Assert.assertTrue(loggedUserPage.getHeadingText().contains(lastName));
         Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Marcin Ostolski");
 
     }
-    @Test
-    public void signUpTest2() {
-        int randomNumber = (int) (Math.random() * 1000);
-        String email = "marcin" + randomNumber;
-        String lastName = "Ostolski";
-        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
-        hotelSearchPage.openSignUpForm();
 
-        SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.fillSignUpForm("Marcin",lastName,"700800900",email+"@gmail.com","123test");
 
-        LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
-        Assert.assertTrue(loggedUserPage.getHeadingText().contains(lastName));
-        Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Marcin Ostolski");
-
-    }
     @Test
     public void signUpEmptySheetTest() {
-        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
-        hotelSearchPage.openSignUpForm();
-
-        SignUpPage signUpPage = new SignUpPage(driver);
+        SignUpPage signUpPage = new HotelSearchPage(driver)
+                .openSignUpForm();
         signUpPage.performSignUP();
 
         List<String> failsList = signUpPage.getFailsList();
@@ -79,24 +60,19 @@ public class SignUpTest extends BaseTest {
 
     @Test
     public void signUpEmailFailTest() {
-        int randomNumber = (int) (Math.random() * 1000);
-        String email = "marcin" + randomNumber;
-        String lastName = "Ostolski";
-        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
-        hotelSearchPage.openSignUpForm();
 
-        SignUpPage signUpPage = new SignUpPage(driver);
-        signUpPage.settAtribute(signUpPage.getFirstNameInput(), "Marcin");
-        signUpPage.settAtribute(signUpPage.getLastNameInput(), lastName);
-        signUpPage.settAtribute(signUpPage.getPhoneInput(), "700800900");
-        signUpPage.settAtribute(signUpPage.getEmailInput(), email);
-        signUpPage.settAtribute(signUpPage.getPasswordInput(), "123test");
-        signUpPage.settAtribute(signUpPage.getConfirmPasswordInput(), "123test");
+        SignUpPage signUpPage = new HotelSearchPage(driver)
+                .openSignUpForm()
+                .setFirstName("Marcin")
+                .setLastName("Ostolski")
+                .setPhone("700800900")
+                .setEmail("marcin")
+                .setPassword("123test")
+                .setConfirmPassword("123test");
 
         signUpPage.performSignUP();
 
-        List<String> failsList = signUpPage.getFailsList();
-        Assert.assertTrue(failsList.contains("The Email field must contain a valid email address."));
+        Assert.assertTrue(signUpPage.getFailsList().contains("The Email field must contain a valid email address."));
 
     }
 }
