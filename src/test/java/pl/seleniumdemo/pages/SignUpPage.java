@@ -77,7 +77,7 @@ public class SignUpPage {
         return this;
     }
 
-    
+
     public LoggedUserPage performSignUP() {
         signUpButton.click();
         return new LoggedUserPage(driver);
