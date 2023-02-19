@@ -73,4 +73,13 @@ public class SignUpPage {
     public void performSignUP (){
         signUpButton.click();
     }
+    public void fillSignUpForm(String firstname, String lastname,String phone, String email,String password){
+        firstNameInput.sendKeys(firstname);
+        lastNameInput.sendKeys(lastname);
+        phoneInput.sendKeys(phone);
+        emailInput.sendKeys(email);
+        passwordInput.sendKeys(password);
+        confirmPasswordInput.sendKeys(password);
+        performSignUP();
+    }
 }
