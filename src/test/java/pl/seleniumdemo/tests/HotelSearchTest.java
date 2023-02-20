@@ -1,5 +1,6 @@
 package pl.seleniumdemo.tests;
 
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -15,6 +16,7 @@ public class HotelSearchTest extends BaseTest {
     /* Searching for hotel*/
     @Test
     public void searchHotelTest() {
+
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.setCity("Dubai");
         hotelSearchPage.setDates("20/04/2023", "29/04/2023");
@@ -24,8 +26,10 @@ public class HotelSearchTest extends BaseTest {
         ResultsPage resultsPage = new ResultsPage(driver);
         List<String> hotelsList = resultsPage.getHotelNames();
 
+        /*
         System.out.println(hotelsList.size());
         hotelsList.forEach(System.out::println);
+        */
 
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(hotelsList.get(0), "Jumeirah Beach Hotel", "Failed to find");
