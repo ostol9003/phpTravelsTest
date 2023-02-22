@@ -1,19 +1,32 @@
 package pl.seleniumdemo.tests;
 
 
-
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 import pl.seleniumdemo.utils.DriverFactory;
 
 import java.io.IOException;
-import java.time.Duration;
 
 @Listeners(value = {TestListener.class})
 public class BaseTest {
     protected WebDriver driver;
+
+    protected  static  ExtentSparkReporter html;
+    protected static ExtentReports extentReports;
+
+@BeforeSuite
+    public void beforeSuit(){
+        html = new ExtentSparkReporter("index.html");
+        extentReports = new ExtentReports();
+        extentReports.attachReporter(html);
+    }
+    @AfterSuite
+    public void AfterSuit(){;
+        extentReports.flush();
+        extentReports.flush();
+    }
 
     @BeforeMethod
     public void setup() throws IOException {
