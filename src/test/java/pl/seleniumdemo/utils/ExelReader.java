@@ -29,12 +29,17 @@ public class ExelReader {
 
         int rowCount = sheet.getLastRowNum();
 
-        for (int i = 1; i < rowCount; i++){
+        for (int i = 1; i <= rowCount; i++){
             Row row = sheet.getRow(i);
-            String cell = row.getCell(0).getStringCellValue();
-            cell(System.out::println);
-            row.getCell(1).getStringCellValue();
+
+            System.out.println(row.getCell(0).getStringCellValue());
+            System.out.println(row.getCell(1).getStringCellValue());
 
         }
+
+    }
+
+    public static void main(String[] args) throws IOException {
+        readExel("testData.xlsx");
     }
 }
