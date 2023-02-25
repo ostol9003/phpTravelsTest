@@ -94,6 +94,8 @@ public class HotelSearchPage {
     }
 
     private void addTraveler(WebElement travelerBtn, int travelersToAdd) {
+        if(travelersToAdd == 0)
+            return;
         for (int i = 0; i < travelersToAdd; i++) {
             travelerBtn.click();
         }
