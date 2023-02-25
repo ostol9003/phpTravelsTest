@@ -12,15 +12,15 @@ import java.io.IOException;
 
 public class ExcelReader {
     public static Object[][] readExcel(String fileName) throws IOException {
-        File file = new File("src/test/resources/"+fileName);
+        File file = new File("src/test/resources/" + fileName);
 
         FileInputStream inputStream = new FileInputStream(file);
 
         Workbook workbook = null;
         String fileExt = fileName.substring(fileName.indexOf("."));
-        if (fileExt.equals(".xlsx")){
+        if (fileExt.equals(".xlsx")) {
             workbook = new XSSFWorkbook(inputStream);
-        }else if (fileExt.equals(".xls")){
+        } else if (fileExt.equals(".xls")) {
             workbook = new HSSFWorkbook(inputStream);
         }
 
@@ -30,11 +30,11 @@ public class ExcelReader {
         int columnQuantity = sheet.getRow(0).getLastCellNum();
         Object[][] data = new Object[rowCount][columnQuantity];
 
-        for (int i = 1; i <= rowCount; i++){
+        for (int i = 1; i <= rowCount; i++) {
             Row row = sheet.getRow(i);
 
-            for(int j = 0; j < columnQuantity; j++){
-                data[i-1][j] = row.getCell(j).getStringCellValue();
+            for (int j = 0; j < columnQuantity; j++) {
+                data[i - 1][j] = row.getCell(j).getStringCellValue();
             }
 
         }

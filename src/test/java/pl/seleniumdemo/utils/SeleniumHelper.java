@@ -12,16 +12,17 @@ import java.io.IOException;
 import java.time.Duration;
 
 public class SeleniumHelper {
-    public static void waitForElementToExist(WebDriver driver, By locator){
+    public static void waitForElementToExist(WebDriver driver, By locator) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    public static void waitForElementToBeVisible(WebDriver driver, WebElement locator){
+    public static void waitForElementToBeVisible(WebDriver driver, WebElement locator) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfAllElements(locator));
     }
-    public static void waitForNotEmptyList(WebDriver driver, By locator){
+
+    public static void waitForNotEmptyList(WebDriver driver, By locator) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(browser -> browser.findElements(locator).size() > 0);
     }
@@ -30,12 +31,13 @@ public class SeleniumHelper {
         String path = takeScreenshot(driver);
         return MediaEntityBuilder.createScreenCaptureFromPath(path).build();
     }
-    private static String takeScreenshot (WebDriver driver) throws IOException {
-        int random = (int) (Math.random()*1000);
+
+    private static String takeScreenshot(WebDriver driver) throws IOException {
+        int random = (int) (Math.random() * 1000);
         TakesScreenshot screenshot = (TakesScreenshot) driver;
         File file = screenshot.getScreenshotAs(OutputType.FILE);
         String path = "src/test/resources/screenshots/" + random + ".png";
-        FileUtils.copyFile(file,new File(path));
+        FileUtils.copyFile(file, new File(path));
         return path;
     }
 }

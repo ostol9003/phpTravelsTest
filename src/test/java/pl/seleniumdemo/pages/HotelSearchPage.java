@@ -64,7 +64,7 @@ public class HotelSearchPage {
         searchCitySpan.click();
         searchCityInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
-        SeleniumHelper.waitForElementToExist(driver,By.xpath(xpath));
+        SeleniumHelper.waitForElementToExist(driver, By.xpath(xpath));
         driver.findElement(By.xpath(xpath)).click();
         logger.info("Setting city done");
 
@@ -94,7 +94,7 @@ public class HotelSearchPage {
     }
 
     private void addTraveler(WebElement travelerBtn, int travelersToAdd) {
-        if(travelersToAdd == 0)
+        if (travelersToAdd == 0)
             return;
         for (int i = 0; i < travelersToAdd; i++) {
             travelerBtn.click();

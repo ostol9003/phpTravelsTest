@@ -20,7 +20,6 @@ public class ResultsPage {
     }
 
 
-
     public List<String> getHotelNames() {
         return hotelsList.stream()
                 .map(el -> el.getAttribute("textContent"))

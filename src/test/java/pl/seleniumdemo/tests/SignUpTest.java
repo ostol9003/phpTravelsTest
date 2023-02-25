@@ -2,7 +2,6 @@ package pl.seleniumdemo.tests;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -34,14 +33,14 @@ public class SignUpTest extends BaseTest {
         signUpPage.setEmail(email + "@gmail.com");
         signUpPage.setPassword("123test");
         signUpPage.setConfirmPassword("123test");
-        test.log(Status.PASS,"Completing the sheet done", SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Completing the sheet done", SeleniumHelper.getScreenshot(driver));
 
         signUpPage.performSignUP();
-        test.log(Status.PASS,"Performing sign up done",SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Performing sign up done", SeleniumHelper.getScreenshot(driver));
         LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
         Assert.assertTrue(loggedUserPage.getHeadingText().contains(lastName));
         Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Marcin Ostolski");
-        test.log(Status.PASS,"Assertions passed",SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Assertions passed", SeleniumHelper.getScreenshot(driver));
 
     }
 
@@ -53,7 +52,7 @@ public class SignUpTest extends BaseTest {
         ExtentTest test = extentReports.createTest("Sign up empty sheet Test");
         SignUpPage signUpPage = new SignUpPage(driver);
         signUpPage.performSignUP();
-        test.log(Status.PASS,"Performing sign up done",SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Performing sign up done", SeleniumHelper.getScreenshot(driver));
 
         List<String> failsList = signUpPage.getFailsList();
 
@@ -69,7 +68,7 @@ public class SignUpTest extends BaseTest {
         failsList.forEach(e -> softAsert.assertTrue(fails.contains(e)));
 
         softAsert.assertAll();
-        test.log(Status.PASS,"Assertions passed",SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Assertions passed", SeleniumHelper.getScreenshot(driver));
 
     }
 
@@ -89,11 +88,11 @@ public class SignUpTest extends BaseTest {
         signUpPage.setEmail("marcin");
         signUpPage.setPassword("123test");
         signUpPage.setConfirmPassword("123test");
-        test.log(Status.PASS,"Completing the sheet done", SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Completing the sheet done", SeleniumHelper.getScreenshot(driver));
         signUpPage.performSignUP();
-        test.log(Status.PASS,"Performing sign up done",SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Performing sign up done", SeleniumHelper.getScreenshot(driver));
         List<String> failsList = signUpPage.getFailsList();
         Assert.assertTrue(failsList.contains("The Email field must contain a valid email address."));
-        test.log(Status.PASS,"Assertions passed",SeleniumHelper.getScreenshot(driver));
+        test.log(Status.PASS, "Assertions passed", SeleniumHelper.getScreenshot(driver));
     }
 }

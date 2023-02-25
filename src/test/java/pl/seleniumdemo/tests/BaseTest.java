@@ -13,17 +13,18 @@ import java.io.IOException;
 public class BaseTest {
     protected WebDriver driver;
 
-    protected  static  ExtentSparkReporter html;
+    protected static ExtentSparkReporter html;
     protected static ExtentReports extentReports;
 
-@BeforeSuite
-    public void beforeSuit(){
+    @BeforeSuite
+    public void beforeSuit() {
         html = new ExtentSparkReporter("index.html");
         extentReports = new ExtentReports();
         extentReports.attachReporter(html);
     }
+
     @AfterSuite
-    public void AfterSuit(){;
+    public void AfterSuit() {
         extentReports.flush();
         extentReports.flush();
     }
